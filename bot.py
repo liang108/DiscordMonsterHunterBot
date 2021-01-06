@@ -14,32 +14,26 @@ GUILD = os.getenv('DISCORD_GUILD')
 
 bot = commands.Bot(command_prefix='!')
 
-'''
-br = Broswer()
-url = "https://smite.guru"
-br.open(url)
-'''
-
 @bot.event
 async def on_ready():
-    '''
-    for guild in client.guilds:
+    for guild in bot.guilds:
         if guild.name == GUILD:
             break
-    '''
 
     guild = discord.utils.get(bot.guilds, name=GUILD)
-     
+    channel = discord.utils.get(guild.text_channels, name="general")
+    await channel.send('Howdy there, Pard! Ready to eat some monsters?')
+    '''
     print(
         f'{bot.user} is connected to the following guild:\n'
-        f'{guild.name}(id: {guild.id})\n'
+        f'{guild.name}(id: {guild.id})'
     )
 
     # Need privileged intent to see guild members
 
     #members = '\n - '.join([member.name for member in guild.members])
     #print(f'Guild Members:\n - {members}')
-
+    '''
 
 @bot.event
 async def on_member_join(member):
@@ -49,24 +43,17 @@ async def on_member_join(member):
     )
 
 
-'''
-@bot.command
-async def on_message(message):
-    if message.author == client.user:
-        return
-'''
+@bot.event
+async def on_disconnect():
+    guild = discord.utils.get(bot.guilds, name=GUILD)
+    channel = discord.utils.get(guild.text_channels, name="general")
+    await channel.send('I\'m feeling hungry, gotta go eat! Later, Pard!')
+
 
 @bot.command(name='gay', help='Use this command to find the gayest member of the server')
-async def gay(ctx):
-    #locations = ["Phoenix", 'Tustin', 'Winslow', 'Tuscon', 'Mesa', 'Jungle', 'Duo Lane', 'Coral Highlands', 'Astera', 'The \"park\"', 'Spectating']
-    #response = "Christopher's current location: "
-    mongs = ["gAyMC", "yourNEMisjeff", "The Carry", "XJewlanque", "Raisin Branz"]
-    response = random.choice(mongs)
-    response = response + " is currently the most gayest"
-    await ctx.channel.send(response)
-    
-    #level = random.randint(1, 999999)
-    #await ctx.channel.send(f"Jake's simp level: {level}")
+async def gay(ctx, user):
+    adjectives = ('big', 'gigantic', 'ginormous', 'huge', 'colossal', 'sizeably', 'substantially', 'comically', 'immensely', 'macroscopically', 'vastly', 'enormously', 'largely', 'cosmically', 'abysmally', 'ludicrously', 'ridiculously', 'fantastically')
+    await ctx.channel.send(user + ' is ' + random.choice(adjectives) + ' gay')
 
 
 @bot.command(name='weak', help='Finds elemental weaknesses of the given monster. Make sure to capitalize and spell correctly.')
@@ -74,43 +61,47 @@ async def weak(ctx, monster):
     url = 'https://monsterhunter.fandom.com/wiki/' + monster
     page = requests.get(url)    
     soup = BeautifulSoup(page.content, 'html.parser')
-
     results_all = soup.find_all(class_ = 'pi-item pi-data pi-item-spacing pi-border-color')
-    
+    found = False
     for result in results_all:
         if 'Weakest to' in result.text:
+            found = True
             await ctx.channel.send(result.text)
-
-
-@bot.command(name='weak_detailed', help='Lists elemental weaknesses')
-async def weak_detailed(ctx, monster):
-    url = 'https://monsterhunter.fandom.com/wiki/' + monster
-    page = requests.get(url)
-    soup = BeautifulSoup(page.content, 'html.parser')
-
-    results_all = soup.find_all('table', class_ = 'wikitable')
-    
-    for result in results_all:
-        if ('Element Weakness Damage Data' in result.text):
-            tr_list = result.find_all('tr')
-            table = result
             break
+    if found == False:
+        await ctx.channel.send('Monster not found; make sure to replace spaces with \"_\" and capitalize')
+
     
-    tr_list.pop(0)
-    tr_list.pop(0)
+@bot.command(name='type', help='Get the given monster\'s elements.')
+async def type(ctx, monster):
+    url = 'https://monsterhunter.fandom.com/wiki/' + monster
+    page = requests.get(url)    
+    soup = BeautifulSoup(page.content, 'html.parser')
+    results_all = soup.find_all(class_ = 'pi-item pi-data pi-item-spacing pi-border-color')
+    found = False
+    for result in results_all:
+        if 'Elements' in result.text:
+            found = True
+            await ctx.channel.send(result.text)
+            break
+    if found == False:
+        await ctx.channel.send('Monster not found; make sure to replace spaces with \"_\" and capitalize')
 
-    elements = {0 : "Fire", 1 : "Water", 2 : "Thunder", 3 : "Ice", 4 : "Dragon"}
-
-    for tr in tr_list:
-        td_list = tr.find_all('td')
-        await ctx.channel.send(td_list[0].text)
-        td_list.pop(0)
-        i=0
-        output = ''
-        for td in td_list:
-            output = output + elements[i] + ': ' + td.text
-            i = i+1
-        await ctx.channel.send(output)
+    
+@bot.command(name='ailments', help='Find which ailments the given monster can apply')
+async def ailments(ctx, monster):
+    url = 'https://monsterhunter.fandom.com/wiki/' + monster
+    page = requests.get(url)    
+    soup = BeautifulSoup(page.content, 'html.parser')
+    results_all = soup.find_all(class_ = 'pi-item pi-data pi-item-spacing pi-border-color')
+    found = False
+    for result in results_all:
+        if 'Ailments' in result.text:
+            found = True
+            await ctx.channel.send(result.text)
+            break
+    if found == False:
+        await ctx.channel.send('Monster not found; make sure to replace spaces with \"_\" and capitalize')
 
     
 bot.run(TOKEN)

@@ -22,7 +22,7 @@ async def on_ready():
 
     guild = discord.utils.get(bot.guilds, name=GUILD)
     channel = discord.utils.get(guild.text_channels, name="general")
-    await channel.send('Howdy there, Pard! Ready to eat some monsters?')
+    await channel.send('Howdy there, Pard! Ready to eat, err, I mean hunt some monsters?')
     '''
     print(
         f'{bot.user} is connected to the following guild:\n'
@@ -47,7 +47,7 @@ async def on_member_join(member):
 async def on_disconnect():
     guild = discord.utils.get(bot.guilds, name=GUILD)
     channel = discord.utils.get(guild.text_channels, name="general")
-    await channel.send('I\'m feeling hungry, gotta go eat! Later, Pard!')
+    await channel.send('I\'m feelin\' hungry, gotta go eat! Later, Pard!')
 
 
 @bot.command(name='gay', help='Use this command to find the gayest member of the server')
@@ -56,20 +56,22 @@ async def gay(ctx, user):
     await ctx.channel.send(user + ' is ' + random.choice(adjectives) + ' gay')
 
 
-@bot.command(name='weak', help='Finds elemental weaknesses of the given monster. Make sure to capitalize and spell correctly.')
+@bot.command(name='weak', help='Finds elemental weaknesses of the given monster.')
 async def weak(ctx, monster):
     url = 'https://monsterhunter.fandom.com/wiki/' + monster
     page = requests.get(url)    
     soup = BeautifulSoup(page.content, 'html.parser')
     results_all = soup.find_all(class_ = 'pi-item pi-data pi-item-spacing pi-border-color')
+    phrases = ('Mmm, ' + monster + '!\n', 'Oh, ' + monster + '? I love the taste of ' + monster + '!\n', 'Ooh, Pard, bring me back some ' + monster + '!\n', monster + ' - its tail is so tasty! Break it for me please.\n', monster + ' \*drools\*...\n', 'I can\'t wait to taste some ' + monster + '... B)\n')
     found = False
+    await ctx.channel.send(random.choice(phrases))
     for result in results_all:
         if 'Weakest to' in result.text:
             found = True
             await ctx.channel.send(result.text)
             break
     if found == False:
-        await ctx.channel.send('Monster not found; make sure to replace spaces with \"_\" and capitalize')
+        await ctx.channel.send('Sorry, Pard, I couldn\'t find that monster! Make sure to replace spaces with \"_\" and capitalize!')
 
     
 @bot.command(name='type', help='Get the given monster\'s elements.')
@@ -77,15 +79,17 @@ async def type(ctx, monster):
     url = 'https://monsterhunter.fandom.com/wiki/' + monster
     page = requests.get(url)    
     soup = BeautifulSoup(page.content, 'html.parser')
+    phrases = ('Mmm, ' + monster + '!\n', 'Oh, ' + monster + '? I love the taste of ' + monster + '!\n', 'Ooh, Pard, bring me back some ' + monster + '!\n', monster + ' - its tail is so tasty! Break it for me please.\n', monster + ' \*drools\*...\n', 'I can\'t wait to taste some ' + monster + '... B)\n')    
     results_all = soup.find_all(class_ = 'pi-item pi-data pi-item-spacing pi-border-color')
     found = False
+    await ctx.channel.send(random.choice(phrases))
     for result in results_all:
         if 'Elements' in result.text:
             found = True
             await ctx.channel.send(result.text)
             break
     if found == False:
-        await ctx.channel.send('Monster not found; make sure to replace spaces with \"_\" and capitalize')
+        await ctx.channel.send('Sorry, Pard, I couldn\'t find that monster! Make sure to replace spaces with \"_\" and capitalize!')
 
     
 @bot.command(name='ailments', help='Find which ailments the given monster can apply')
@@ -94,14 +98,43 @@ async def ailments(ctx, monster):
     page = requests.get(url)    
     soup = BeautifulSoup(page.content, 'html.parser')
     results_all = soup.find_all(class_ = 'pi-item pi-data pi-item-spacing pi-border-color')
+    phrases = ('Mmm, ' + monster + '!\n', 'Oh, ' + monster + '? I love the taste of ' + monster + '!', 'Ooh, Pard, bring me back some ' + monster + '!\n', monster + ' - its tail is so tasty! Break it for me please.\n', monster + ' \*drools\*...\n', 'I can\'t wait to taste some ' + monster + '... B)\n')
     found = False
+    await ctx.channel.send(random.choice(phrases))
     for result in results_all:
         if 'Ailments' in result.text:
             found = True
             await ctx.channel.send(result.text)
             break
     if found == False:
-        await ctx.channel.send('Monster not found; make sure to replace spaces with \"_\" and capitalize')
+        await ctx.channel.send('Sorry, Pard, I couldn\'t find that monster! Make sure to replace spaces with \"_\" and capitalize!')
 
-    
+
+@bot.command(name='all', help='Get a monster\'s weaknesses, elements, and ailments')
+async def all(ctx, monster):
+    url = 'https://monsterhunter.fandom.com/wiki/' + monster
+    page = requests.get(url)    
+    soup = BeautifulSoup(page.content, 'html.parser')
+    results_all = soup.find_all(class_ = 'pi-item pi-data pi-item-spacing pi-border-color')
+    phrases = ('Mmm, ' + monster + '!\n', 'Oh, ' + monster + '? I love the taste of ' + monster + '!\n', 'Ooh, Pard, bring me back some ' + monster + '!\n', monster + ' - its tail is so tasty! Break it for me please.\n', monster + ' \*drools\*...\n', 'I can\'t wait to taste some ' + monster + '... B)\n')
+    found_count = 0
+    await ctx.channel.send(random.choice(phrases))
+    for result in results_all:
+        if 'Weakest to' in result.text:
+            await ctx.channel.send(result.text)
+            found_count = found_count + 1
+            next
+        if 'Elements' in result.text:
+            await ctx.channel.send(result.text)
+            found_count = found_count + 1
+            next
+        if 'Ailments' in result.text:
+            await ctx.channel.send(result.text)
+            found_count = found_count + 1
+            next
+
+    if found_count != 3:
+        await ctx.channel.send('Sorry, Pard! Couldn\'t find all the info on that monster.')
+
+  
 bot.run(TOKEN)

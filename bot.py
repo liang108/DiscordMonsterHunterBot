@@ -22,7 +22,8 @@ async def on_ready():
 
     guild = discord.utils.get(bot.guilds, name=GUILD)
     channel = discord.utils.get(guild.text_channels, name="general")
-    await channel.send('Howdy there, Pard! Ready to eat, err, I mean hunt some monsters?')
+    greetings = ('Howdy there, Pard! Ready to eat, err, I mean hunt some monsters?', 'Yo Pard! Just letting ya know, if your Palico acts up again it might be my next lunch...', 'Salutations Pard! The Field Team Leader says I\'m weird for liking monster foods, I just think it\'s funny how he\'s never successfully hunted a monster', 'Greetings, Pard! It\'s a good day for some Deviljho toes.', 'How you doin\' Pard! Do you think I put on weight recently?... I\'m just getting ready for Iceborne, OK?!', 'Hey Pard! Ever think about how the Serious Handler is incredibly inferior to me in both weight and intellect?')
+    await channel.send(random.choice(greetings))
     '''
     print(
         f'{bot.user} is connected to the following guild:\n'
@@ -62,7 +63,7 @@ async def weak(ctx, monster):
     page = requests.get(url)    
     soup = BeautifulSoup(page.content, 'html.parser')
     results_all = soup.find_all(class_ = 'pi-item pi-data pi-item-spacing pi-border-color')
-    phrases = ('Mmm, ' + monster + '!\n', 'Oh, ' + monster + '? I love the taste of ' + monster + '!\n', 'Ooh, Pard, bring me back some ' + monster + '!\n', monster + ' - its tail is so tasty! Break it for me please.\n', monster + ' \*drools\*...\n', 'I can\'t wait to taste some ' + monster + '... B)\n')
+    phrases = ('Mmm, ' + monster + '!\n', 'Oh, ' + monster + '? I love the taste of ' + monster + '!\n', 'Ooh, Pard, bring me back some ' + monster + '!\n', monster + ' - its tail is so tasty! Break it for me please.\n', monster + '... \*drools\*\n', 'I can\'t wait to taste some ' + monster + '... B)\n')
     found = False
     await ctx.channel.send(random.choice(phrases))
     for result in results_all:
@@ -79,7 +80,7 @@ async def type(ctx, monster):
     url = 'https://monsterhunter.fandom.com/wiki/' + monster
     page = requests.get(url)    
     soup = BeautifulSoup(page.content, 'html.parser')
-    phrases = ('Mmm, ' + monster + '!\n', 'Oh, ' + monster + '? I love the taste of ' + monster + '!\n', 'Ooh, Pard, bring me back some ' + monster + '!\n', monster + ' - its tail is so tasty! Break it for me please.\n', monster + ' \*drools\*...\n', 'I can\'t wait to taste some ' + monster + '... B)\n')    
+    phrases = ('Mmm, ' + monster + '!\n', 'Oh, ' + monster + '? I love the taste of ' + monster + '!\n', 'Ooh, Pard, bring me back some ' + monster + '!\n', monster + ' - its tail is so tasty! Break it for me please.\n', monster + '... \*drools\*\n', 'I can\'t wait to taste some ' + monster + '... B)\n')    
     results_all = soup.find_all(class_ = 'pi-item pi-data pi-item-spacing pi-border-color')
     found = False
     await ctx.channel.send(random.choice(phrases))
@@ -98,7 +99,7 @@ async def ailments(ctx, monster):
     page = requests.get(url)    
     soup = BeautifulSoup(page.content, 'html.parser')
     results_all = soup.find_all(class_ = 'pi-item pi-data pi-item-spacing pi-border-color')
-    phrases = ('Mmm, ' + monster + '!\n', 'Oh, ' + monster + '? I love the taste of ' + monster + '!', 'Ooh, Pard, bring me back some ' + monster + '!\n', monster + ' - its tail is so tasty! Break it for me please.\n', monster + ' \*drools\*...\n', 'I can\'t wait to taste some ' + monster + '... B)\n')
+    phrases = ('Mmm, ' + monster + '!\n', 'Oh, ' + monster + '? I love the taste of ' + monster + '!', 'Ooh, Pard, bring me back some ' + monster + '!\n', monster + ' - its tail is so tasty! Break it for me please.\n', monster + '... \*drools\*\n', 'I can\'t wait to taste some ' + monster + '... B)\n')
     found = False
     await ctx.channel.send(random.choice(phrases))
     for result in results_all:
@@ -116,7 +117,7 @@ async def all(ctx, monster):
     page = requests.get(url)    
     soup = BeautifulSoup(page.content, 'html.parser')
     results_all = soup.find_all(class_ = 'pi-item pi-data pi-item-spacing pi-border-color')
-    phrases = ('Mmm, ' + monster + '!\n', 'Oh, ' + monster + '? I love the taste of ' + monster + '!\n', 'Ooh, Pard, bring me back some ' + monster + '!\n', monster + ' - its tail is so tasty! Break it for me please.\n', monster + ' \*drools\*...\n', 'I can\'t wait to taste some ' + monster + '... B)\n')
+    phrases = ('Mmm, ' + monster + '!\n', 'Oh, ' + monster + '? I love the taste of ' + monster + '!\n', 'Ooh, Pard, bring me back some ' + monster + '!\n', monster + ' - its tail is so tasty! Break it for me please.\n', monster + '... \*drools\*\n', 'I can\'t wait to taste some ' + monster + '... B)\n')
     found_count = 0
     await ctx.channel.send(random.choice(phrases))
     for result in results_all:

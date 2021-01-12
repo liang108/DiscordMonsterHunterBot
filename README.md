@@ -9,8 +9,8 @@ and returns relevant information.
 
 Here is a demo:
 
-![alt text](https://github.com/liang108/Monster-Hunter-Bot/Screenshots/bot2.PNG)
+![alt text](https://github.com/liang108/Monster-Hunter-Bot/blob/main/Screenshots/bot2.PNG)
 
 which correctly scrapes the test from the column on the right from the wiki.
 
-![alt text](https://github.com/liang108/Monster-Hunter-Bot/Screenshots/bot3.PNG)
+![alt text](https://github.com/liang108/Monster-Hunter-Bot/blob/main/Screenshots/bot3.PNG)

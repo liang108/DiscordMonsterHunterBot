@@ -11,6 +11,6 @@ Here is a demo:
 
 ![alt text](https://github.com/liang108/Monster-Hunter-Bot/blob/main/Screenshots/bot2.PNG)
 
-which correctly scrapes the test from the column on the right from the wiki.
+which correctly scraped the appropriate HTML from the column on the right from the wiki (the 'weaknesses' section).
 
 ![alt text](https://github.com/liang108/Monster-Hunter-Bot/blob/main/Screenshots/bot3.PNG)

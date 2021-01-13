@@ -1,4 +1,4 @@
-This is a bot to be used to look up information on monsters in the game Monster Hunter World. For reference,
+This is a Discord bot to be used to look up information on monsters in the game Monster Hunter World. For reference,
 The Handler is the main character's partner who helps organize their missions. She also has a huge appetite.
 
 The bot scrapes HTML from the website:
@@ -7,7 +7,15 @@ https://monsterhunter.fandom.com/wiki
 
 and returns relevant information. 
 
-Here is a demo:
+Currently, there are four commands that send information to the Discord channel:
+(Replace `<monster-name>` with desired monster)
+
+* `!weak <monster-name>`: Returns the elements the monster is weak to.
+* `!type <monster-name>`: Returns the monster's elemental types.
+* `!ailments <monster-name>`: Returns the ailments that the monster may inflict on the player.
+* `!all <monster-name>`: Returns all of the above.
+
+Here is a demo of the `!weak` command:
 
 ![alt text](https://github.com/liang108/Monster-Hunter-Bot/blob/main/Screenshots/bot2.PNG)
 

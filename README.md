@@ -15,6 +15,8 @@ Currently, there are four commands that send information to the Discord channel:
 * `!ailments <monster-name>`: Returns the ailments that the monster may inflict on the player.
 * `!all <monster-name>`: Returns all of the above.
 
+If the monster's name contains a space, it must be replaced with an underscore. The bot also tends to work better with capitalized names.
+
 Here is a demo of the `!weak` command:
 
 ![alt text](https://github.com/liang108/Monster-Hunter-Bot/blob/main/Screenshots/bot2.PNG)
